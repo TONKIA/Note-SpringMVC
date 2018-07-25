@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tonkia.spring.data.ProductMapper">
+	<select id="getPrdById" parameterType="_int" resultType="ProductInfo">
+		select
+		product_id productId,product_name productName,product_type_id
+		productTypeId, product_price price from PRODUCT where
+		product_id=#{id}
+	</select>
+
+</mapper>

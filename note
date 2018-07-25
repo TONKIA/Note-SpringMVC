@@ -1,0 +1,108 @@
+Spring MVC 依赖的jar包
+|-Spring IoC
+	|-IoC容器涉及到的jar包(5个主要jar包)：
+	|-beans.jar
+	|-context.jar
+	|-context-support.jar
+	|-core.jar
+	|-expression.jar
+	|-commons-logging.jar（日志输出）
+|-Spring AOP
+	|-aopalliance.jar
+	|-aspectjweaver-1.5.2.jar
+	|-cglib-3.2.4.jar
+|-Spring MVC
+	|-spring-web-4.1.1.RELEASE.jar
+	|-spring-webmvc-4.1.1.RELEASE.jar
+	
+-----------------------------------------------------------------	
+	* web.xml配置 *
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<!-- 1-5等级越高，载入越早 -->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+-----------------------------------------------------------------
+
+DispatchServlet(请求分发器)
+HandleMappering(处理器映射)
+Controller(控制器 属于 处理器的一种)
+返回 ModelAndView（模型视图对象）
+由ViewResolver(视图解析器)来解析获得View 
+
+默认的处理器映射
+BeanNameUrlHandlerMapper
+DefaultAnnotationHandlerMapper
+
+默认的视图解析器
+InternalResourceViewResolver
+
+使用注解的方式配置Controller和处理器的方法
+首先要引入
+component-scan(组件扫描，根据注解来登记 @Service @Controller @Responsity)
+需要引入
+RequestMapperingHandlerMappering
+RequestMapperingHandlerAdapter
+
+如果想使用REST风格的url
+需要引入	<mvc:default-servlet-handler /> 处理静态资源的返回
+
+
+ModelAndView
+包涵Model(ModelMap)和View(View接口的实例或者ViewName)
+-----------------------------------------------------------------
+返回JSON文本
+1.自定义视图View 配置BeanNameViewResolver
+
+	<!-- 配置视图解析器配置 解析为json视图返回 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="99"></property>
+	</bean>
+
+	<!-- 默认视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	</bean>
+
+	<!-- 自定义视图 -->
+	<bean id="jsonView" class="com.tonkia.spring.view.JsonView" />
+
+
+
+2.通过@RequestBody注解返回JSON文本
+(
+需要配合jackson
+会跳过视图解析和处理的过程，
+由处理器适配器对象根据请求的Accept的值来选择相应的MessagerConverter返回相应的值
+要确定客户端请求的Accept值为application/json或text/plain
+)
+
+-----------------------------------------------------------------
+文件上传
+
+需要配置id为mutipartResolver的实现了MutipartResolver接口的bean
+
+然后会将HttpServletRequest转换为MutipartRequest
+
+MutipartRequest：
+MutipartFile getFile(String name);
+List<MutipartFile> getFiles(String name);
+Iterator<String> getFileNames();
+
+MutipartFile:
+String getName();//返回表单参数名
+String getOriginalFileName();//返回原本的文件名
+String getContentType();//返回内容类型
+long getSize();
+InputStream getInputStream();
+
+
+
