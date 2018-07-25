@@ -33,8 +33,9 @@ Spring MVC 依赖的jar包
 -----------------------------------------------------------------
 
 DispatchServlet(请求分发器)
-HandleMappering(处理器映射)
-Controller(控制器 属于 处理器的一种)
+HandleMappering(处理器映射)：用于找到url对应的Controller(Handler)
+HandleAdapt(处理器适配器)：找到Controller调用相应的Controller方法(包括数据的转化包装等)
+Controller(控制器 属于 处理器Handler的一种)
 返回 ModelAndView（模型视图对象）
 由ViewResolver(视图解析器)来解析获得View 
 
