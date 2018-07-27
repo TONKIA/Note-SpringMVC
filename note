@@ -105,5 +105,24 @@ String getContentType();//返回内容类型
 long getSize();
 InputStream getInputStream();
 
+-----------------------------------------------------------------
+<mvc:annotation-driven />的可选配置
+
+<mvc: annotation-driven  message-codes-resolver="bean name" validator="bean name" conversion-service="bean name" ignoreDefaultModelOnRedirect="true or false">
+
+    <mvc:message-converters>
+        <bean></bean>
+    </mvc:message-converters>
+    
+    <mvc:argument-resolvers>
+        <bean></bean>
+    </mvc:argument-resolvers>
+    
+    <mvc:return-value-handlers>
+        <bean></bean>
+    </mvc:return-value-handlers>
+    
+</mvc:annotation-driven>
+
 
 
